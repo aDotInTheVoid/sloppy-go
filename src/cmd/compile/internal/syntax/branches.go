@@ -40,8 +40,8 @@ func checkBranches(body *BlockStmt, errh ErrorHandler) {
 	// spec: "It is illegal to define a label that is never used."
 	for _, l := range ls.labels {
 		if !l.used {
-			l := l.lstmt.Label
-			ls.err(l.Pos(), "label %s defined and not used", l.Value)
+		//	l := l.lstmt.Label
+		//	ls.err(l.Pos(), "label %s defined and not used", l.Value)
 		}
 	}
 }

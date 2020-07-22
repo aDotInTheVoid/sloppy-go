@@ -56,7 +56,7 @@ func g() {
 	var z bool
 	switch {
 	case z:
-		labelname:	// ERROR "label labelname defined and not used"
+		labelname:	
 	}
 
 	switch {

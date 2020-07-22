@@ -13,18 +13,18 @@ package main
 var x int
 
 func f() {
-L1: // ERROR "label .*L1.* defined and not used"
+L1:
 	for {
 	}
-L2: // ERROR "label .*L2.* defined and not used"
+L2:
 	select {}
-L3: // ERROR "label .*L3.* defined and not used"
+L3:
 	switch {
 	}
-L4: // ERROR "label .*L4.* defined and not used"
+L4:
 	if true {
 	}
-L5: // ERROR "label .*L5.* defined and not used"
+L5:
 	f()
 L6: // GCCGO_ERROR "previous"
 	f()
@@ -50,7 +50,7 @@ L9:
 	switch {
 	case true:
 		break L9
-	defalt: // ERROR "label .*defalt.* defined and not used"
+	defalt:
 	}
 
 L10:
