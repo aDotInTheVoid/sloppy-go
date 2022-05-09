@@ -698,51 +698,6 @@ func (a inSourceOrder) Len() int           { return len(a) }
 func (a inSourceOrder) Less(i, j int) bool { return a[i].order() < a[j].order() }
 func (a inSourceOrder) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
-// unusedImports checks for unused imports.
-func (check *Checker) unusedImports() {
-	// if function bodies are not checked, packages' uses are likely missing - don't check
-	if check.conf.IgnoreFuncBodies {
-		return
-	}
-
-	// spec: "It is illegal (...) to directly import a package without referring to
-	// any of its exported identifiers. To import a package solely for its side-effects
-	// (initialization), use the blank identifier as explicit package name."
-
-	for _, obj := range check.imports {
-		if !obj.used && obj.name != "_" {
-			check.errorUnusedPkg(obj)
-		}
-	}
-}
-
-func (check *Checker) errorUnusedPkg(obj *PkgName) {
-	// If the package was imported with a name other than the final
-	// import path element, show it explicitly in the error message.
-	// Note that this handles both renamed imports and imports of
-	// packages containing unconventional package declarations.
-	// Note that this uses / always, even on Windows, because Go import
-	// paths always use forward slashes.
-	path := obj.imported.path
-	elem := path
-	if i := strings.LastIndex(elem, "/"); i >= 0 {
-		elem = elem[i+1:]
-	}
-	if obj.name == "" || obj.name == "." || obj.name == elem {
-		if check.conf.CompilerErrorMessages {
-			check.softErrorf(obj, "imported and not used: %q", path)
-		} else {
-			check.softErrorf(obj, "%q imported but not used", path)
-		}
-	} else {
-		if check.conf.CompilerErrorMessages {
-			check.softErrorf(obj, "imported and not used: %q as %s", path, obj.name)
-		} else {
-			check.softErrorf(obj, "%q imported but not used as %s", path, obj.name)
-		}
-	}
-}
-
 // dir makes a good-faith attempt to return the directory
 // portion of path. If path is empty, the result is ".".
 // (Per the go/build package dependency tests, we cannot import

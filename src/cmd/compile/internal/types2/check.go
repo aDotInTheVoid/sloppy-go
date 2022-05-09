@@ -333,11 +333,6 @@ func (check *Checker) checkFiles(files []*syntax.File) (err error) {
 	print("== initOrder ==")
 	check.initOrder()
 
-	if !check.conf.DisableUnusedImportCheck {
-		print("== unusedImports ==")
-		check.unusedImports()
-	}
-
 	print("== recordUntyped ==")
 	check.recordUntyped()
 
